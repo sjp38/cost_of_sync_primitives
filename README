@@ -1,0 +1,21 @@
+Cost of Synchronization Primitives
+==================================
+
+This project is for performance and scalability test of synchronization
+primitives including as memory barrier, atomic operations, mutex.
+
+
+Build & Usage
+=============
+
+Follow below instructions to build and execute the test.
+```
+$ make
+$ ./cost_of_sync_primitives
+```
+
+
+Author
+======
+
+SeongJae Park <sj38.park@gmail.com>
