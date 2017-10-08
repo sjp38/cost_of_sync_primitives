@@ -2,7 +2,6 @@
  * test_sync_primitives - test synchronization primitives
  */
 
-#include <getopt.h>
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
