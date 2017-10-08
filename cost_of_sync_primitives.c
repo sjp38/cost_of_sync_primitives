@@ -148,7 +148,7 @@ enum op {
 	CASLOCK	/* CAS based spinlock */
 } op;
 
-unsigned OP_PERIOD = 2000;
+unsigned OP_PERIOD = 2000;	/* milli-seconds */
 enum op *PERF_TARGETS = (enum op[]) {
 	INC, FAA, CAS, FCAS, CCAS, MBA, LOCK, CASLOCK};
 size_t PERF_TARGETS_SZ = 8;
@@ -213,14 +213,12 @@ void *do_op(void *arg)
 		unsigned long long oldval;
 
 		oldval = *val;
-		DO_UNTIL_END(
-				oldval = __sync_val_compare_and_swap(
+		DO_UNTIL_END(oldval = __sync_val_compare_and_swap(
 					val, oldval, oldval + 1));
 	} else if (o->op == CCAS) {
 		unsigned long long oldval;
 
-		DO_UNTIL_END(
-				oldval = ACCESS_ONCE(*val);
+		DO_UNTIL_END(oldval = ACCESS_ONCE(*val);
 				if (oldval == *val)
 					__sync_val_compare_and_swap(
 						val, oldval, oldval + 1));
@@ -230,14 +228,14 @@ void *do_op(void *arg)
 		pthread_mutex_t *lock;
 		lock = o->lock;
 
-		DO_UNTIL_END( pthread_mutex_lock(lock);
+		DO_UNTIL_END(pthread_mutex_lock(lock);
 				(*val)++;
-				pthread_mutex_unlock(lock) );
+				pthread_mutex_unlock(lock));
 	} else if (o->op == CASLOCK) {
 		unsigned long long *spinlock;
 		spinlock = (unsigned long long *)o->spinlock;
 
-		DO_UNTIL_END( CAS_LOCK(spinlock);
+		DO_UNTIL_END(CAS_LOCK(spinlock);
 				(*val)++;
 				CAS_UNLOCK(spinlock) );
 	}
