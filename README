@@ -2,7 +2,7 @@ Cost of Synchronization Primitives
 ==================================
 
 This project is for performance and scalability test of synchronization
-primitives including as memory barrier, atomic operations, mutex.
+primitives including memory barrier, atomic operations, mutex, etc.
 
 
 Build & Usage
