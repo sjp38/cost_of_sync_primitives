@@ -286,11 +286,10 @@ void test_op(enum op op, int nr_thrs)
 		pthread_join(ps[i], NULL);
 		total_count += las[i].count;
 	}
-	printf("%10s, %4d, %15.2lf, ",
-			opnames[o.op], nr_thrs,
-			ates_calc_ops(las[0].lat, total_count));
+	printf("%4d %15.2lf ",
+			nr_thrs, ates_calc_ops(las[0].lat, total_count));
 
-	printf("%15.2lf,\n", ates_calc_ops(las[0].lat, *(o.addr)));
+	printf("%15.2lf\n", ates_calc_ops(las[0].lat, *(o.addr)));
 	fflush(stdout);
 
 	pthread_mutex_destroy(o.lock);
@@ -303,12 +302,15 @@ int test_performance(void)
 {
 	int i, j;
 
-	printf("%10s, %4s, %15s, %15s,\n",
-			"operation", "thrs", "issues", "succ");
+	printf("# %4s %15s %15s\n",
+			"thrs", "issues", "succ");
 	for (i = 0; i < PERF_TARGETS_SZ; i++) {
+		printf("%s\n", opnames[i]);
 		for (j = 0; j < PERF_THRS_SZ; j++) {
 			test_op(PERF_TARGETS[i], PERF_THRS[j]);
 		}
+		if (i < PERF_TARGETS_SZ - 1)
+			printf("\n\n");
 	}
 	return 0;
 }
