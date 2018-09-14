@@ -2,6 +2,7 @@
  * test_sync_primitives - test synchronization primitives
  */
 
+#include <argp.h>
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -152,8 +153,9 @@ unsigned OP_PERIOD = 2000;	/* milli-seconds */
 enum op *PERF_TARGETS = (enum op[]) {
 	INC, FAA, CAS, FCAS, CCAS, MBA, LOCK, CASLOCK};
 size_t PERF_TARGETS_SZ = 8;
-int *PERF_THRS = (int[]) {1,4,8,12,16,20,24,28,32};
-size_t PERF_THRS_SZ = 9;
+int *PERF_THRS;
+size_t PERF_THRS_SZ;
+int max_cpus = 4;
 
 struct op_glob_arg {
 	enum op op;
@@ -313,8 +315,56 @@ int test_performance(void)
 	return 0;
 }
 
+int *mk_cpus_buffer(int max_cpus, size_t *sz_buf)
+{
+	int *buffer = (int *)malloc(sizeof(int) * 8);
+	int nr_cpus = 1;
+	int i;
+
+	for (i = 0; nr_cpus <= max_cpus; i++) {
+		buffer[i] = nr_cpus;
+		nr_cpus *= 2;
+	}
+	*sz_buf = i;
+	return buffer;
+}
+
+static struct argp_option options[] = {
+	{
+		.name = "max_cpus",
+		.key = 'm',
+		.arg = "<max_cpus>",
+		.flags = 0,
+		.doc = "number of maximum cpus this program can use",
+		.group = 0,
+	},
+	{}
+};
+
+error_t parse_option(int key, char *arg, struct argp_state *state)
+{
+	switch(key) {
+	case 'm':
+		max_cpus = atoi(arg);
+		break;
+	default:
+		return ARGP_ERR_UNKNOWN;
+	}
+	return 0;
+}
+
 int main(int argc, char *argv[])
 {
+	struct argp argp = {
+		.options = options,
+		.parser = parse_option,
+		.args_doc = "",
+		.doc = "Measure cost of synchronization primitives",
+	};
+
+	argp_parse(&argp, argc, argv, ARGP_IN_ORDER, NULL, NULL);
+
+	PERF_THRS = mk_cpus_buffer(max_cpus, &PERF_THRS_SZ);
 	cpu_freq = aclk_freq();
 	return test_performance();
 }
