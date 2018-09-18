@@ -14,8 +14,17 @@ $ make
 $ ./cost_of_sync_primitives
 ```
 
+Following command will generate a pdf format plot.  Note that this command
+requires 'lazybox'[1] to be installed  on your home directory.
+```
+$ make report
+```
+
 
 Author
 ======
 
 SeongJae Park <sj38.park@gmail.com>
+
+
+[1] https://github.com/sjp38/lazybox
