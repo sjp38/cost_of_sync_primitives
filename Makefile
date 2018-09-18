@@ -1,4 +1,4 @@
-.PHONY: clean help
+.PHONY: clean help report
 
 APP	:= cost_of_sync_primitives
 OBJS	:= cost_of_sync_primitives.o
@@ -11,6 +11,12 @@ LIBS	:= -lpthread
 
 $(APP): $(OBJS)
 	$(CC) -o $@ $^ $(LIBS)
+
+report: $(APP)
+	./$(APP) | ./_to_gnuplot_dat.py | \
+		$(HOME)/lazybox/gnuplot/plot_stdin.sh scatter \
+		"Number of cores" "Operations per second"
+	evince plot.pdf
 
 clean:
 	rm -f $(APP) $(OBJS)
