@@ -1,4 +1,4 @@
-.PHONY: clean help report
+.PHONY: clean report
 
 APP	:= cost_of_sync_primitives
 OBJS	:= cost_of_sync_primitives.o
