@@ -9,16 +9,14 @@ Build & Usage
 =============
 
 Follow below instructions to build and execute the test.
-```
-$ make
-$ ./cost_of_sync_primitives
-```
 
-Following command will generate a pdf format plot.  Note that this command
-requires 'lazybox'[1] to be installed  on your home directory.
-```
-$ make report
-```
+    $ make
+    $ ./cost_of_sync_primitives --max_cpus=$(nproc)
+
+Following command will generate a pdf visualization (plot.pdf).  Note that this
+command requires 'lazybox'[1] to be installed  on your home directory.
+
+    $ make report
 
 
 Author
