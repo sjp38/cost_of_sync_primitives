@@ -14,8 +14,8 @@ $(APP): $(OBJS)
 
 report: $(APP)
 	./$(APP) | ./_to_gnuplot_dat.py | \
-		$(HOME)/lazybox/gnuplot/plot_stdin.sh scatter \
-		"Number of cores" "Operations per second"
+		$(HOME)/lazybox/gnuplot/plot.py --xtitle "Number of cores" \
+		--ytitle "Operations per second"
 	evince plot.pdf
 
 clean:
