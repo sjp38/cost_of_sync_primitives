@@ -5,16 +5,17 @@ This project is for performance and scalability test of synchronization
 primitives including memory barrier, atomic operations, mutex, etc.
 
 
-Build & Usage
-=============
+Getting Started
+===============
 
-Follow below instructions to build and execute the test.
+Follow below instructions to build and execute the program.
 
     $ make
     $ ./cost_of_sync_primitives --max_cpus=$(nproc)
 
-Following command will generate a pdf visualization (plot.pdf).  Note that this
-command requires 'lazybox'[1] to be installed  on your home directory.
+Following command will generate a visualization of the results in pdf file
+(plot.pdf).  Note that this command requires 'lazybox'[1] to be installed  on
+your home directory.
 
     $ make report
 
