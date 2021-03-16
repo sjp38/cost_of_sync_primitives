@@ -16,7 +16,7 @@ report: $(APP)
 	./$(APP) | ./_to_gnuplot_dat.py | \
 		$(HOME)/lazybox/gnuplot/plot.py --xtitle "Number of cores" \
 		--ytitle "Operations per second"
-	evince plot.pdf
+	@echo "The report ('plot.pdf') is ready now"
 
 clean:
 	rm -f $(APP) $(OBJS)
